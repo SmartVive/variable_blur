@@ -82,8 +82,10 @@ void main() {
             if (weight < 0.001) continue;  // Skip negligible weights
             vec2 offset = vec2(0.0, float(j) / uViewSize.y);
             vec2 sampleUV = uv + offset;
-            result += texture(uTexture, sampleUV).rgb * weight;
-            weightSum += weight;
+            if (sampleUV.x >= 0.0 && sampleUV.x <= 1.0 && sampleUV.y >= 0.0 && sampleUV.y <= 1.0) {
+                result += texture(uTexture, sampleUV).rgb * weight;
+                weightSum += weight;
+            }
         }
     } else if (kSize <= 30) {
         // Medium-small blur: use medium-small loop bounds
@@ -93,8 +95,10 @@ void main() {
             if (weight < 0.001) continue;  // Skip negligible weights
             vec2 offset = vec2(0.0, float(j) / uViewSize.y);
             vec2 sampleUV = uv + offset;
-            result += texture(uTexture, sampleUV).rgb * weight;
-            weightSum += weight;
+            if (sampleUV.x >= 0.0 && sampleUV.x <= 1.0 && sampleUV.y >= 0.0 && sampleUV.y <= 1.0) {
+                result += texture(uTexture, sampleUV).rgb * weight;
+                weightSum += weight;
+            }
         }
     } else if (kSize <= 50) {
         // Medium blur: use medium loop bounds
@@ -104,8 +108,10 @@ void main() {
             if (weight < 0.001) continue;  // Skip negligible weights
             vec2 offset = vec2(0.0, float(j) / uViewSize.y);
             vec2 sampleUV = uv + offset;
-            result += texture(uTexture, sampleUV).rgb * weight;
-            weightSum += weight;
+            if (sampleUV.x >= 0.0 && sampleUV.x <= 1.0 && sampleUV.y >= 0.0 && sampleUV.y <= 1.0) {
+                result += texture(uTexture, sampleUV).rgb * weight;
+                weightSum += weight;
+            }
         }
     } else {
         // Large blur: use full loop bounds
@@ -115,8 +121,10 @@ void main() {
             if (weight < 0.001) continue;  // Skip negligible weights
             vec2 offset = vec2(0.0, float(j) / uViewSize.y);
             vec2 sampleUV = uv + offset;
-            result += texture(uTexture, sampleUV).rgb * weight;
-            weightSum += weight;
+            if (sampleUV.x >= 0.0 && sampleUV.x <= 1.0 && sampleUV.y >= 0.0 && sampleUV.y <= 1.0) {
+                result += texture(uTexture, sampleUV).rgb * weight;
+                weightSum += weight;
+            }
         }
     }
     
