@@ -12,6 +12,7 @@ uniform float rightExtent;
 uniform float isAndroid;
 uniform float edgeIntensity;
 uniform float kernelSize;
+uniform vec4 overlayColor;
 uniform sampler2D uTexture;
 uniform sampler2D uOriginalTexture;
 
@@ -137,5 +138,9 @@ void main() {
     
     // Final blending
     vec4 blurredColor = vec4(blurred, 1.0);
-    FragColor = mix(originalColor, blurredColor, blendFactor);
+    vec4 baseColor = mix(originalColor, blurredColor, blendFactor);
+    
+    // Overlay color: alpha scales with blendFactor so it follows the blur gradient
+    float overlayAlpha = blendFactor * overlayColor.a;
+    FragColor = vec4(mix(baseColor.rgb, overlayColor.rgb, overlayAlpha), baseColor.a);
 }

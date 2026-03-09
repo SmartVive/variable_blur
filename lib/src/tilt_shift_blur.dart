@@ -84,7 +84,8 @@ class VariableBlur extends StatelessWidget {
       this.quality = BlurQuality.high,
       this.edgeIntensity = 0.15,
       this.isYFlipNeed = false,
-      this.useRepaintBoundary = true});
+      this.useRepaintBoundary = true,
+      this.overlayColor});
 
   /// The widget to apply the blur effect to.
   final Widget child;
@@ -110,6 +111,13 @@ class VariableBlur extends StatelessWidget {
 
   /// Whether to wrap the blur widget with RepaintBoundary for performance optimization.
   final bool useRepaintBoundary;
+
+  /// Optional overlay color applied on top of the blur effect.
+  ///
+  /// The color's opacity follows the blur gradient: fully transparent at blur edges
+  /// and reaching the specified opacity at blur-region centers.
+  /// When null, no color overlay is applied.
+  final Color? overlayColor;
 
   /// Precaches the blur shaders to improve first-render performance.
   ///
@@ -162,7 +170,11 @@ class VariableBlur extends StatelessWidget {
               ..setFloat(6, normalizedBlurSides.right)
               ..setFloat(7, !isYFlipNeed ? 0.0 : 1.0)
               ..setFloat(8, edgeIntensity)
-              ..setFloat(9, _getAdjustedKernelSize());
+              ..setFloat(9, _getAdjustedKernelSize())
+              ..setFloat(10, (overlayColor?.r ?? 0.0).toDouble())
+              ..setFloat(11, (overlayColor?.g ?? 0.0).toDouble())
+              ..setFloat(12, (overlayColor?.b ?? 0.0).toDouble())
+              ..setFloat(13, (overlayColor?.a ?? 0.0).toDouble());
 
             verticalShader.setImageSampler(0, horizontalImage);
             verticalShader.setImageSampler(1, image); // Original for blending
